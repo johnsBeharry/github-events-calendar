@@ -10,14 +10,12 @@ export function keysToLowercase(obj: {}) {
 	return newObj;
 }
 
+/* supported: ISO 8601, RFC 2822, Ordinal Dates (en)
+ */
 export function normaliseDate(date: string) {
-	let parsed = Date.parse(date);
-	if(parsed !== NaN) {
-		return parsed;
-	}
-	else {
-		throw new Error("Could not parse date");
-	}
+	let momentObj = moment(date, ["Do MMM, YY", "YYYY-MM-DD", "MMM, Do YY"]);
+	let isoDate = momentObj.format("YYYY-MM-DD");
+	return isoDate;
 }
 
 export function normaliseTime(time: string) {
