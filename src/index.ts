@@ -3,7 +3,7 @@ const { Octokit } = require("@octokit/rest");
 const MarkdownIt = require("markdown-it");
 const parseDuration = require("parse-duration");
 const YAML = require("yaml");
-const { keysToLowercase } = require("./helpers");
+const { keysToLowercase, normaliseTime } = require("./helpers");
 
 const cal = ical();
 const octokit = new Octokit({
@@ -54,13 +54,15 @@ function getEventObjFromIssue(issue: any): IEvent {
 	return event;
 }
 
+console.log(normaliseTime("2020-12-24 10:00", "UTC +0"));
+console.log(normaliseTime("2020-12-24 10:00", "UTC +3"));
 
-getIssues("BitcoinDesign", "Meta", "call")
-	.then((issues: any) => {
-		let events = issues.data.map((issue: any) => getEventObjFromIssue(issue));
-		console.log(events);
-	})
-	.catch((err: any) => {
-		console.error("error", err);
-	});
+// getIssues("BitcoinDesign", "Meta", "call")
+// 	.then((issues: any) => {
+// 		let events = issues.data.map((issue: any) => getEventObjFromIssue(issue));
+// 		console.log(events);
+// 	})
+// 	.catch((err: any) => {
+// 		console.error("error", err);
+// 	});
 
