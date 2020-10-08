@@ -10,10 +10,20 @@ export function keysToLowercase(obj: {}) {
 	return newObj;
 }
 
-export function normaliseTime(time: string, timeZone: string) {
-	moment.tz.load({version : "2020b", links: [], zones: []});
-	let newTime = moment.tz(time, timeZone).format();
-
-	return newTime;
+export function normaliseDate(date: string) {
+	let parsed = Date.parse(date);
+	if(parsed !== NaN) {
+		return parsed;
+	}
+	else {
+		throw new Error("Could not parse date");
+	}
 }
 
+export function normaliseTime(time: string) {
+	let momentObj = moment(time, ["h:mm A Z"])
+	let timeInHours = momentObj.format();
+	let utcOffset = momentObj.format("Z");
+
+	return {time: timeInHours, utcOffset};
+}
